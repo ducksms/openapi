@@ -2,7 +2,7 @@
 
 ## Official API Documentation
 
-https://ducksms.stoplight.io/
+https://docs.ducksms.com/developer/api-documentation
 
 ## Requirements
 
