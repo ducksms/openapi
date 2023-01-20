@@ -1,0 +1,108 @@
+```python
+from __future__ import print_function
+import time
+import {{{packageName}}}
+from {{{packageName}}}.rest import ApiException
+from pprint import pprint
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+{{> python_doc_auth_partial}}
+# Defining host is optional and default to {{{basePath}}}
+configuration.host = "{{{basePath}}}"
+# Enter a context with an instance of the API client
+with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+    {{#allParams}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{/allParams}}
+
+    try:
+    {{#summary}}    # {{{.}}}
+    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+        pprint(api_response){{/returnType}}
+    except ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+    {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+```
+
+
+## Documentation For Authorization
+
+{{^authMethods}}
+ All endpoints do not require authorization.
+{{/authMethods}}
+{{#authMethods}}
+{{#last}} Authentication schemes defined for the API:{{/last}}
+## {{{name}}}
+
+{{#isApiKey}}
+- **Type**: API key
+- **API key parameter name**: {{{keyParamName}}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+
+```python
+import ducksms-api
+
+configuration = ducksms-api.Configuration()
+configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
+configuration.api_key_prefix['{{{keyParamName}}}'] = 'token'
+```
+{{/isApiKey}}
+{{#isBasic}}
+{{#isBasicBasic}}
+- **Type**: HTTP basic authentication
+
+```python
+import ducksms-api
+
+configuration = ducksms-api.Configuration()
+configuration.username = 'YOUR_USERNAME'
+configuration.password = 'YOUR_PASSWORD'
+```
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+- **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+
+```pytjon
+import ducksmss-api
+
+configuration = ducksms-api.Configuration()
+configuration.access_token = 'YOUR_BEARER_TOKEN'
+```
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}
+- **Type**: OAuth
+- **Flow**: {{{flow}}}
+- **Authorization URL**: {{{authorizationUrl}}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}
+{{#scopes}} - **{{{scope}}}**: {{{description}}}
+{{/scopes}}
+
+```python
+import ducksms-api
+
+configuration = ducksms-api.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+```
+{{/isOAuth}}
+
+{{/authMethods}}
+
+## Documentation for API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Documentation For Models
+
+{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+
+## Get help / support
+
+Please contact [support@ducksms.com](mailto:support@ducksms.com?subject=[GitHub]%20ducksms-go) and we can take more direct action toward finding a solution.

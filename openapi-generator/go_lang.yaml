@@ -1,0 +1,8 @@
+'!include': 'shared.yaml'
+generatorName: go
+outputDir: clients/go
+packageName: ducksms
+packageVersion: 1.0.0
+gitUserId: ducksms
+gitRepoId: ducksms-go
+httpUserAgent: Ducksms Strings go

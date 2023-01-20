@@ -1,0 +1,9 @@
+'!include': 'shared.yaml'
+generatorName: python
+outputDir: clients/python
+packageName: ducksms_api
+projectName: ducksms-api
+packageVersion: 1.0.0
+packageUrl: "https://github.com/ducksms/ducksms-python"
+gitUserId: ducksms
+gitRepoId: ducksms-python

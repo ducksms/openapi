@@ -1,0 +1,6 @@
+'!include': 'shared.yaml'
+generatorName: typescript-fetch
+outputDir: clients/typescript
+npmName: "ducksms-js"
+npmVersion: 1.0.0
+typescriptThreePlus: true

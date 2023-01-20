@@ -1,0 +1,8 @@
+'!include': 'shared.yaml'
+generatorName: php
+outputDir: clients/php
+invokerPackage: Ducksms
+artifactVersion: 1.0.0
+gitUserId: ducksms
+gitRepoId: ducksms-php
+packageName: ducksms-php

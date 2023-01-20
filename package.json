@@ -1,0 +1,39 @@
+{
+  "name": "openapi",
+  "version": "1.0.0",
+  "description": "Ducksms OpenAPI",
+  "scripts": {
+    "start": "make",
+    "generate.ruby": "make bundle ruby",
+    "generate.go": "make bundle go",
+    "generate.typescript": "make bundle typescript",
+    "generate.python": "make bundle python",
+    "generate.swift": "make bundle swift",
+    "generate.java": "make bundle java",
+    "generate.kotlin": "make bundle kotlin",
+    "generate.php": "make bundle php",
+    "generate.csharp": "make bundle csharp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ducksms/openapi.git"
+  },
+  "keywords": [
+    "ducksms",
+    "ducksms",
+    "api",
+    "ducksms",
+    "openapi",
+    "openapi"
+  ],
+  "author": "Ducksms",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ducksms/openapi/issues"
+  },
+  "homepage": "https://github.com/ducksms/openapi#readme",
+  "devDependencies": {
+    "@apidevtools/swagger-cli": "^4.0.3",
+    "@openapitools/openapi-generator-cli": "^1.0.13-4.3.1"
+  }
+}

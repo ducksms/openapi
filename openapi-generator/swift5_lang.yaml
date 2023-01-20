@@ -1,0 +1,14 @@
+'!include': 'shared.yaml'
+generatorName: swift5
+outputDir: clients/swift5
+projectName: Ducksms
+swiftUseApiNamespace: true
+podAuthors: support@ducksms.com
+podDocumentationURL: https://ducksms.com
+podHomepage: https://ducksms.com
+podLicense: "MIT"
+podVersion: "1.0.0"
+podSource: "{ :git => 'https://github.com/ducksms/ducksms-swift.git' }"
+podSummary: Ducksms is a leading SMS messaging service provider offering one-way SMS communication services from your internet enabled computer. 
+objcCompatible: false
+apiNamePrefix: Ducksms

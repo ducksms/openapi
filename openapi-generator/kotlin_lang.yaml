@@ -1,0 +1,16 @@
+'!include': 'shared.yaml'
+generatorName: kotlin
+outputDir: clients/java
+artifactId: ducksms
+artifactVersion: 1.0.0
+groupId: com.ducksms
+packageName: com.ducksms.client
+sourceFolder: src/main/ducksms
+
+artifactUrl: https://ducksms.com
+developerEmail: support@ducksms.com
+developerName: Ducksms
+developerOrganization: ducksms.com
+developerOrganizationUrl: https://ducksms.com/
+licenseName: MIT
+licenseUrl: https://choosealicense.com/licenses/mit/

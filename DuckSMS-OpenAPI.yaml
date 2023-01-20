@@ -1,0 +1,1259 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Ducksms",
+        "description": "Ducksms is a leading SMS messaging service provider offering one-way SMS communication services from your internet enabled computer. The API allow you to directly communicate and manage a SMS with our SMS gateway system.",
+        "contact": {
+            "name": "Support",
+            "url": "https:\/\/ducksms.com\/",
+            "email": "support@ducksms.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https:\/\/ducksms.com"
+        }
+    ],
+    "paths": {
+        "\/api\/v1\/sms\/send": {
+            "post": {
+                "tags": [
+                    "Sms"
+                ],
+                "summary": "Send Sms",
+                "description": "Create a new sms",
+                "operationId": "SmsSend",
+                "requestBody": {
+                    "description": "Create a new sms",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SmsSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/PreviewSmsSend"
+                    },
+                    "201": {
+                        "$ref": "#\/components\/responses\/CreatedSmsSend"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ErrorValidation"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/sms\/scheduled": {
+            "get": {
+                "tags": [
+                    "Sms Schedule"
+                ],
+                "summary": "List Sms Schedule",
+                "description": "List all the sms schedule",
+                "operationId": "ListSmsSchedule",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "filter[sender_name]",
+                        "in": "query",
+                        "description": "Filter by sender id name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DUCKSMS"
+                    },
+                    {
+                        "name": "filter[type]",
+                        "in": "query",
+                        "description": "Filter by sms type",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "quick",
+                                "bulk"
+                            ],
+                            "type": "string"
+                        },
+                        "example": "quick"
+                    },
+                    {
+                        "name": "filter[message_type]",
+                        "in": "query",
+                        "description": "Filter by sms message type",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "ascii",
+                                "unicode"
+                            ],
+                            "type": "string"
+                        },
+                        "example": "ascii"
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by sms status",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "pending",
+                                "processing",
+                                "completed",
+                                "failed",
+                                "cancelled"
+                            ],
+                            "type": "string"
+                        },
+                        "example": "pending"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/ListSmsSchedule"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/sms\/scheduled\/{id}": {
+            "delete": {
+                "tags": [
+                    "Sms Schedule"
+                ],
+                "summary": "Cancel Sms Schedule",
+                "description": "Cancel existing sms schedule",
+                "operationId": "CancelSmsSchedule",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/CancelSmsSchedule"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/senders": {
+            "get": {
+                "tags": [
+                    "Sender ID"
+                ],
+                "summary": "List Sender ID",
+                "description": "List all the senders",
+                "operationId": "ListSender",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by sender name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DUCKSMS"
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by sender status",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "active",
+                                "inactive"
+                            ],
+                            "type": "string"
+                        },
+                        "example": "active"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/ListSender"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sender ID"
+                ],
+                "summary": "Create a Sender ID",
+                "description": "Create a new sender id",
+                "operationId": "CreateSender",
+                "requestBody": {
+                    "description": "Create a new sender",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Sender"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "$ref": "#\/components\/responses\/CreatedSender"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ErrorValidation"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/senders\/{id}": {
+            "get": {
+                "tags": [
+                    "Sender ID"
+                ],
+                "summary": "Get a single Sender ID",
+                "description": "Get details on a single sender id",
+                "operationId": "GetSender",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/GetSender"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sender ID"
+                ],
+                "summary": "Update a Sender ID",
+                "description": "Update an existing sender id",
+                "operationId": "UpdateSender",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update an existing sender id",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Sender"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/UpdatedSender"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ErrorValidation"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sender ID"
+                ],
+                "summary": "Delete a Sender ID",
+                "description": "Delete an existing sender id",
+                "operationId": "DeleteSender",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/DeletedSender"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/credits\/balance": {
+            "get": {
+                "tags": [
+                    "Credit"
+                ],
+                "summary": "Credit Balance",
+                "description": "Get available credit balance",
+                "operationId": "CreditBalance",
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/CreditBalance"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        },
+        "\/api\/v1\/credits\/history": {
+            "get": {
+                "tags": [
+                    "Credit"
+                ],
+                "summary": "Credit History",
+                "description": "Get all credit history",
+                "operationId": "CreditHistory",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "filter[type]",
+                        "in": "query",
+                        "description": "Filter by credit type",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "credit",
+                                "charge",
+                                "pending",
+                                "freeze",
+                                "bonus"
+                            ],
+                            "type": "string"
+                        },
+                        "example": "credit"
+                    },
+                    {
+                        "name": "filter[sms.smsid]",
+                        "in": "query",
+                        "description": "Filter by sms id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1009771270
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#\/components\/responses\/CreditHistory"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/ErrorUnauthenticated"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ErrorInvalidRequest"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ErrorNotFound"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/ErrorException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Sender": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Sender name",
+                        "type": "string",
+                        "example": "DUCKSMS"
+                    },
+                    "description": {
+                        "description": "Sender description",
+                        "type": "string",
+                        "example": "Ducksms sender id"
+                    },
+                    "default": {
+                        "description": "Default sender id",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "status": {
+                        "description": "Sender id status",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "type": "string",
+                        "example": "active"
+                    }
+                }
+            },
+            "SmsSchema": {
+                "type": "object",
+                "properties": {
+                    "preview": {
+                        "description": "Preview the sms information",
+                        "enum": [
+                            "yes",
+                            "no"
+                        ],
+                        "type": "string",
+                        "example": "yes"
+                    },
+                    "mobile_numbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true,
+                        "example": [
+                            "60121234567",
+                            "60131234567",
+                            "60141234567",
+                            "60151234567",
+                            "60161234567",
+                            "60171234567",
+                            "60181234567"
+                        ]
+                    },
+                    "message": {
+                        "type": "string",
+                        "nullable": true,
+                        "example": "Hello world"
+                    },
+                    "sender_id": {
+                        "type": "string",
+                        "nullable": true,
+                        "example": "DUCKSMS"
+                    },
+                    "scheduled_at": {
+                        "type": "string",
+                        "nullable": true,
+                        "example": "2022-12-06T15:19"
+                    },
+                    "callback_url": {
+                        "type": "string",
+                        "nullable": true,
+                        "example": "https:\/\/webhook.site\/2a88e4b4-56f7-46ee-b3a4-2f05d8b8456e"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "ListSmsSchedule": {
+                "description": "List all the sms schedule",
+                "headers": {
+                    "X-Pagination-Count": {
+                        "description": "Total data count",
+                        "schema": {
+                            "type": "integer",
+                            "example": 50
+                        }
+                    },
+                    "X-Pagination-Page": {
+                        "description": "Pagination page number",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    "X-Pagination-Limit": {
+                        "description": "Pagination limit per page",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                },
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ListSmsSchedule",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "The sms scheduled return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "smsid": "59961854",
+                                            "type": "quick",
+                                            "scheduled_at": "2022-12-04 13:41:00",
+                                            "sender_name": "DUCKSMS",
+                                            "message": "Hello World",
+                                            "recipients": 1,
+                                            "status": "completed",
+                                            "created_at": "2022-12-03 13:40:30",
+                                            "updated_at": "2022-12-03 13:46:20"
+                                        },
+                                        {
+                                            "smsid": "1636438975",
+                                            "type": "quick",
+                                            "scheduled_at": "2022-12-03 12:34:00",
+                                            "sender_name": "MYCOMPANY",
+                                            "message": "Hi john",
+                                            "recipients": 1,
+                                            "status": "cancelled",
+                                            "created_at": "2022-12-03 12:32:42",
+                                            "updated_at": "2022-12-03 12:32:46"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorException": {
+                "description": "Server error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ErrorException",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 500
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "An error occurred while saving the data"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "GetSender": {
+                "description": "Get details on a single sender",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "GetSender",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Sender data return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 1,
+                                        "name": "DUCKSMS",
+                                        "description": "Example sender id description",
+                                        "default": true,
+                                        "status": "active",
+                                        "created_at": "2022-11-29T03:28:39.000000Z",
+                                        "updated_at": "2022-11-29T03:28:39.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "PreviewSmsSend": {
+                "description": "Sms preview",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "PreviewSmsSend",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Preview data return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "scheduled_at": false,
+                                        "sender_id": {
+                                            "name": "DUCKSMS"
+                                        },
+                                        "mobile_number": [
+                                            {
+                                                "number": 60131234567
+                                            },
+                                            {
+                                                "number": 60131234562
+                                            }
+                                        ],
+                                        "credit": {
+                                            "charge_per_sms": 1,
+                                            "charge_per_number": 1,
+                                            "charge": 1,
+                                            "balance": 986762,
+                                            "after": 986761
+                                        },
+                                        "message": {
+                                            "type": "ascii",
+                                            "total": 1,
+                                            "length": 31,
+                                            "message": "RM0 DUCKSMS: Hello World, Good morning!"
+                                        },
+                                        "callback_url": "https:\/\/webhook.site\/2a88e4b4-56f7-46ee-b3a4-2f05d8b8456e",
+                                        "contains_special_characters": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorUnauthenticated": {
+                "description": "Unauthenticated",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ErrorUnauthenticated",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 403
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ListSender": {
+                "description": "List all the senders",
+                "headers": {
+                    "X-Pagination-Count": {
+                        "description": "Total data count",
+                        "schema": {
+                            "type": "integer",
+                            "example": 50
+                        }
+                    },
+                    "X-Pagination-Page": {
+                        "description": "Pagination page number",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    "X-Pagination-Limit": {
+                        "description": "Pagination limit per page",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                },
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ListSender",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Senders data return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id": 1,
+                                            "name": "DUCKSMS",
+                                            "description": "Example sender id description",
+                                            "default": true,
+                                            "status": "active",
+                                            "created_at": "2022-11-29T03:28:39.000000Z",
+                                            "updated_at": "2022-11-29T03:28:39.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "MYCOMPANY",
+                                            "description": "Example sender id description",
+                                            "default": false,
+                                            "status": "inactive",
+                                            "created_at": "2022-11-30T03:28:39.000000Z",
+                                            "updated_at": "2022-11-30T03:28:39.000000Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "UpdatedSender": {
+                "description": "Sender updated",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "UpdatedSender",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Sender successfully updated"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "object"
+                                    },
+                                    "example": []
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CreditBalance": {
+                "description": "Get available credit balance",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "CreditBalance",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Balance return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": {
+                                        "balance": 986762
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CreatedSmsSend": {
+                "description": "Sms created",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "CreatedSmsSend",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 201
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "The sms message is successfully scheduled"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "5006623151"
+                                        }
+                                    },
+                                    "example": {
+                                        "smsid": "5006623151",
+                                        "scheduled_at": false,
+                                        "sender_id": {
+                                            "name": "DUCKSMS"
+                                        },
+                                        "mobile_number": [
+                                            {
+                                                "number": "60131234567",
+                                                "msgid": 2006553122
+                                            },
+                                            {
+                                                "number": "60131234562",
+                                                "msgid": 7006553121
+                                            }
+                                        ],
+                                        "credit": {
+                                            "charge_per_sms": 1,
+                                            "charge_per_number": 1,
+                                            "charge": 1,
+                                            "balance": 986762,
+                                            "after": 986761
+                                        },
+                                        "message": {
+                                            "type": "ascii",
+                                            "total": 1,
+                                            "length": 31,
+                                            "message": "RM0 DUCKSMS: Hello World, Good morning!"
+                                        },
+                                        "callback_url": "https:\/\/webhook.site\/2a88e4b4-56f7-46ee-b3a4-2f05d8b8456e",
+                                        "contains_special_characters": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorValidation": {
+                "description": "Validation errors",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ErrorValidation",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 422
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "The given data was invalid."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "field": [
+                                            "Something is wrong with the field"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CreatedSender": {
+                "description": "Sender ID created",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "CreatedSender",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 201
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Sender successfully created"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorNotFound": {
+                "description": "No data found",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ErrorNotFound",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 404
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "No data found"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ErrorInvalidRequest": {
+                "description": "Invalid request",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "ErrorInvalidRequest",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 400
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CancelSmsSchedule": {
+                "description": "Cancel existing sms schedule",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "CancelSmsSchedule",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Schedule successfully cancelled"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "object"
+                                    },
+                                    "example": []
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "DeletedSender": {
+                "description": "Sender deleted",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "DeletedSender",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Sender successfully deleted"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "object"
+                                    },
+                                    "example": []
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CreditHistory": {
+                "description": "List all the credit history",
+                "headers": {
+                    "X-Pagination-Count": {
+                        "description": "Total data count",
+                        "schema": {
+                            "type": "integer",
+                            "example": 50
+                        }
+                    },
+                    "X-Pagination-Page": {
+                        "description": "Pagination page number",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    "X-Pagination-Limit": {
+                        "description": "Pagination limit per page",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                },
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "title": "CreditHistory",
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Credit history data return successfully"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "txid": "342660487",
+                                            "type": "charge",
+                                            "amount": 1,
+                                            "description": "SMS credit charge",
+                                            "smsid": "1201910908"
+                                        },
+                                        {
+                                            "txid": "1220368389",
+                                            "type": "charge",
+                                            "amount": 2,
+                                            "description": "SMS credit charge",
+                                            "smsid": "634967613"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "BearerToken": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "BearerToken": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Sender ID",
+            "description": "Sender ID"
+        },
+        {
+            "name": "Sms",
+            "description": "Sent or schedule a sms"
+        },
+        {
+            "name": "Credit",
+            "description": "Credits"
+        }
+    ]
+}
