@@ -1,0 +1,270 @@
+name: API CLients
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      -
+        name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19.1
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.go
+          git clone https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-go.git clones/go &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/go/ clones/go
+          cd clones/go
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          PACKAGE_VERSION=$(awk '/- Package version:/{print $NF}' README.md)
+          git tag -a v$PACKAGE_VERSION -m v$PACKAGE_VERSION || true
+          git push --tags origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.ruby
+          git clone https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-ruby.git clones/ruby &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/ruby/ clones/ruby
+          cd clones/ruby
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          PACKAGE_VERSION=$(awk '/- Package version:/{print $NF}' README.md)
+          git tag -a $PACKAGE_VERSION -m $PACKAGE_VERSION || true
+          git push --tags origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.typescript
+          git clone https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-js.git clones/typescript &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/typescript/ clones/typescript
+          cd clones/typescript
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          PACKAGE_VERSION=$(awk '/- Package version:/{print $NF}' README.md)
+          git tag -a $PACKAGE_VERSION -m $PACKAGE_VERSION || true
+          git push --tags origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.python
+          git clone https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-python.git clones/python &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/python/ clones/python
+          cd clones/python
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          PACKAGE_VERSION=$(awk '/- Package version:/{print $NF}' README.md)
+          git tag -a $PACKAGE_VERSION -m $PACKAGE_VERSION || true
+          git push --tags origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-swift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.swift
+          git clone --depth 1 https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-swift.git clones/swift &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/swift/ clones/swift
+          cd clones/swift
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          git push origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-java:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.java
+          git clone --depth 1 https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-java.git clones/java &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/java/ clones/java
+          cd clones/java
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          git push origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # npm install
+          # npm run generate.kotlin
+          # git clone --depth 1 https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-kotlin.git clones/kotlin &> /dev/null
+          # rsync -avI --delete --exclude='.git/' clients/kotlin/ clones/kotlin
+          # cd clones/kotlin
+          # git status --verbose
+          # if [ -n "$(git status --porcelain)" ]; then
+          # git config --global user.email "support@ducksms.com"
+          # git config --global user.name "ducksms"
+          # git add .
+          # git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          # git push origin main
+          # else
+          # echo "  No changes, skipping."
+          # fi
+  build-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.php
+          git clone --depth 1 https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-php.git clones/php &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/php/ clones/php
+          cd clones/php
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          git push origin main
+          else
+          echo "  No changes, skipping."
+          fi
+  build-csharp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build and Deploy 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run generate.csharp
+          git clone --depth 1 https://$API_TOKEN_GITHUB@github.com/ducksms/ducksms-csharp.git clones/csharp &> /dev/null
+          rsync -avI --delete --exclude='.git/' clients/csharp/ clones/csharp
+          cd clones/csharp
+          git status --verbose
+          if [ -n "$(git status --porcelain)" ]; then
+          git config --global user.email "support@ducksms.com"
+          git config --global user.name "ducksms"
+          git add .
+          git commit --message "Deploying from  ducksms/openapi@${GITHUB_SHA::8}"
+          git push origin main
+          else
+          echo "  No changes, skipping."
+          fi
