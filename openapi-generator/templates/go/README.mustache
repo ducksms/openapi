@@ -4,7 +4,7 @@ Ducksms is a leading SMS messaging service provider offering one-way SMS communi
 
 ## Official API Documentation
 
-https://ducksms.stoplight.io/
+https://docs.ducksms.com/developer/api-documentation
 
 ## Installation
 
